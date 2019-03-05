@@ -66,15 +66,45 @@ for i in range(892,len(sample500)):
 #use glob pattern matching -> extension = 'csv'
 #save result in list -> all_filenames
             
-#import os
-#import glob
-#import pandas as pd
-#os.chdir(r"C:\Users\eviriyakovithya\Downloads\stock_csv")
-#   
-#extension = 'csv'
-#all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
-#
-##combine all files in the list
-#combined_csv = pd.merge([pd.read_csv(f) for f in all_filenames ])
-##export to csv
-#combined_csv.to_csv( "combined_csv.csv", index=False, encoding='utf-8-sig')
+import os
+import glob
+import pandas as pd
+os.chdir(r"C:\Users\eviriyakovithya\Downloads\stock_csv")
+
+# find all csv in the target folder
+extension = 'csv'
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+
+# intialize the combine csv df to store all data
+f = all_filenames[0]
+df = pd.read_csv(f,  parse_dates=['date'])
+combined_csv=df[['date']]
+#combine all files in the list
+for f in all_filenames:
+    df = pd.read_csv(f,  parse_dates=['date'])
+    # select only two columns
+    df = df[['date', 'close']]
+    # rename colname 'close' -> 'stock name'
+    df= df.rename(columns = {'close':str(f.split('.')[0])})
+    # left join with main df using date col
+    combined_csv = combined_csv.merge(df, on="date", how="left")
+#export to csv
+combined_csv.to_csv( "combined_csv.csv", index=False, encoding='utf-8-sig')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
