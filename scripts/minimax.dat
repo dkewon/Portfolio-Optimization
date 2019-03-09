@@ -1,0 +1,22 @@
+param N:=2;
+
+param r:=
+1 1260.33544
+2   16.51101;
+
+param c: 1 2 :=
+1 3132.58361 50.639918
+2   50.63992  2.016925;
+
+param alpha := 0.02;
+
+####
+# to be replace with hard-coded values???
+let {j in 1..n} ExpRet[j] := sum{i in 1..T} RetMat[i,j]/T;
+let {j in 1..n} stdv[j] := sqrt((sum{i in 1..T} (RetMat[i,j] -ExpRet[j])^2)/T);
+let {j in 1..n} Mp[j] := ExpRet[j]-stdv[j];
+####
+
+option solver gurobi_ampl;
+solve;
+display w;
