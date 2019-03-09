@@ -34,7 +34,7 @@ colnames(stocks_df)<-unlist(stocks_names)
 stocks_df$Date<-stocks_list[[1]]$date
 
 # Save dataframe as .rds
-saveRDS(stocks_df, "stocks.rds")
+#saveRDS(stocks_df, "stocks.rds")
 
 # Restoring data
 # my_data <- readRDS("stocks.rds")
