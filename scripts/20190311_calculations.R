@@ -11,11 +11,14 @@ library(dplyr)
 library(lubridate)
 
 # aggregate monthly, group by mean  
-df_month<- df %>% group_by(month=floor_date(date, "month")) %>% summarise_each(funs(mean))
+df_month500<- df %>% group_by(month=floor_date(date, "month")) %>% summarise_each(funs(mean))
+# sample only 300 columns
+df_month<- df_month500[, sample(ncol(df_month500[3:length(df_month500)]), 300)]
+
 
 # define function
 pct_chg <- function(x){
-  pct_change <- -(x-lead(x))/x*100 # Gets percent change in profit from preceding year
+  pct_change <- -(x-lead(x))/x # Gets percent change in profit from preceding year
   return(pct_change)
 }
 
@@ -25,7 +28,7 @@ pct_chg <- function(x){
 # pct_chg(x)
 
 # apply to the dataframe, remove NAs (last row), (RetMat: Return Matrix)
-df_pct <- data.frame(lapply(df_month[3:length(df_month)], pct_chg))
+df_pct <- data.frame(lapply(df_month, pct_chg))
 RetMat <- na.omit(df_pct)
 write.csv(RetMat,'RetMat.csv')
 

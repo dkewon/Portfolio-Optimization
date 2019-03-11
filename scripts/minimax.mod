@@ -27,6 +27,9 @@ sum {j in 1..n} ExpRet[j]*w[j] >= G;
 subject to Budget:
 sum {j in 1..n} w[j] <= W;
 
-subject to bounds {j in 1..n}:
-0 <= w[j] <= u;
+subject to lowerbounds {j in 1..n}:
+w[j] >= 0;
+
+subject to upperbounds {j in 1..n}:
+w[j] <= u;
 

@@ -12,7 +12,6 @@ var w {1..N} >= 0;
 minimize variance:
 sum{i in 1..N, j in 1..N} c[i,j]*w[i]*w[j];
 
-
 subject to RequiredReturn:
 sum{i in 1..N} r[i]*w[i] >= alpha;
 
