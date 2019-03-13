@@ -17,10 +17,13 @@ names(df)[1]<-"date"
 # change to date time type
 df$date <- ymd(df$date)
 
+
 # aggregate monthly, group by mean  
 df_month500<- df %>% group_by(month=floor_date(date, "month")) %>% summarise_each(funs(mean))
 # sample only 300 columns (due to AMPL student version limitation)
-df_month<- df_month500[, sample(ncol(df_month500[3:length(df_month500)]), 300)]
+df_month500<-df_month500[3:length(df_month500)]
+set.seed(123)
+df_month<- df_month500[, sample(ncol(df_month500[1:length(df_month500)]), 300)]
 
 # define function for gain/loss percentages between each month
 pct_chg <- function(x){
@@ -38,7 +41,7 @@ df_pct <- data.frame(lapply(df_month, pct_chg))
 RetMat <- na.omit(df_pct)
 write.csv(RetMat,'RetMat.csv')
 
-CovMat<- cov(RetMat)
+CovMat<- cov(as.matrix(RetMat))
 write.csv(CovMat,'CovMat.csv')
 
 # calculate mean of % changes (ExpRet: Expected Return)
@@ -48,3 +51,4 @@ write.csv(ExpRet,'ExpRet.csv')
 # calculate standard deviation of % changes (Stdv)
 Stdv <- apply(RetMat, 2, sd, na.rm = TRUE)
 write.csv(Stdv,'Stdv.csv')
+
