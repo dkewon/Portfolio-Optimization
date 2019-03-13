@@ -4,12 +4,18 @@ setwd(wd)
 getwd()
 
 # read in data
-library(readr)
-df <- read_csv("C:/Users/eviriyakovithya/Documents/GitHub/Portfolio-Optimization/stock_csv/_combined_csv.csv")
+if (!require("utf8")) install.packages("utf8");library(utf8)
+if (!require("readr")) install.packages("readr");library(readr)
+df <- read.csv("C:/Users/eviriyakovithya/Documents/GitHub/Portfolio-Optimization/Processed_Data/_combined_csv.csv")
+if (!require("tidyverse")) install.packages("tidyverse");library(tidyverse)
+if (!require("dplyr")) install.packages("dplyr");library(dplyr)
+if (!require("lubridate")) install.packages("lubridate");library(lubridate)
 
-library(tidyverse)
-library(dplyr)
-library(lubridate)
+df<-data.frame(df)
+# rename column
+names(df)[1]<-"date"
+# change to date time type
+df$date <- ymd(df$date)
 
 # aggregate monthly, group by mean  
 df_month500<- df %>% group_by(month=floor_date(date, "month")) %>% summarise_each(funs(mean))
@@ -31,6 +37,9 @@ pct_chg <- function(x){
 df_pct <- data.frame(lapply(df_month, pct_chg))
 RetMat <- na.omit(df_pct)
 write.csv(RetMat,'RetMat.csv')
+
+CovMat<- cov(RetMat)
+write.csv(CovMat,'CovMat.csv')
 
 # calculate mean of % changes (ExpRet: Expected Return)
 ExpRet <- colMeans(RetMat, na.rm = TRUE)
