@@ -1,7 +1,6 @@
 # Portfolio optimization
 
-by: Ekapope Viriyakovithya , James Ponce, Deborah Kewon , Saeed Mirzaee, Usman
-Muhammad
+by: Ekapope Viriyakovithya , James Ponce, Deborah Kewon, Saeed Mirzaee, Usman Muhammad
 
 ## Introduction
 In this study, we aimed to create a model using AMPL to propose investors to effectively
@@ -17,4 +16,4 @@ problem). Therefore, we omitted 200 stocks in the second step. We aggregated sto
 prices by mean and grouped by month, and then calculated average percentage changes,
 covariance, and used them as inputs for AMPL.
 
-For more detail, please refer to Portfolio_Optimization_Group_Project.pdf
+For more detail and findings, please refer to [Portfolio_Optimization_Group_Project.pdf](https://github.com/dkewon/Portfolio-Optimization/blob/master/Portfolio_Optimization_Group_Project.pdf).
